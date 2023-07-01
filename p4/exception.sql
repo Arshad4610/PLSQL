@@ -9,7 +9,7 @@ begin
 	select ssn into s from employee where dno=100;
 exception
 	when too_many_rows then
-	dbms_output.put_line('toomany rows');
+	dbms_output.put_line('too many rows');
 	when zero_divide then
 	dbms_output.put_line('Attempting to divide by zero');
 	when no_data_found then

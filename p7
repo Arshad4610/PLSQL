@@ -1,0 +1,19 @@
+declare
+a bank_trans.acc_no%type;
+tt bank_trans.trans_type%type;
+ta bank_trans.tr_amt%type;
+cursor bank_cursor is
+	select acc_no,trans_type,tr_amt from bank_trans where upd_flag = 'n';
+begin
+open bank_cursor;
+loop
+	fetch bank_cursor into a,tt,ta ;
+exit when bank_cursor%notfound ;
+if tt = 'd' then 
+update bank_main set open_bal = open_bal + ta where acc_no = a ;
+elsif tt = 'w' then 
+update bank_main set open_bal = open_bal - ta where acc_no = a;
+end if;
+update bank_trans set upd_flag = 'y' where acc_no = a and trans_type = tt;
+end loop;
+end;
